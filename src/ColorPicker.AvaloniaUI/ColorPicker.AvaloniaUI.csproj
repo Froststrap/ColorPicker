@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net10.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -36,17 +36,7 @@ Originally developed for PixiEditor: https://github.com/PixiEditor/PixiEditor.</
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ColorPicker.Models\ColorPicker.Models.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
         <AvaloniaResource Include="Images\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Templates\SimpleColorPickerTheme.axaml.cs">
-            <DependentUpon>ColorPickerTheme.axaml</DependentUpon>
-        </Compile>
     </ItemGroup>
 
     <ItemGroup>

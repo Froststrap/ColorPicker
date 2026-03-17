@@ -14,16 +14,12 @@ using ColorPicker.Models;
 
 namespace ColorPicker.UserControls;
 
-[PseudoClasses(":hsv", ":hsl")]
+[PseudoClasses(":hsv")]
 [TemplatePart(Name = "PART_GradientImage", Type = typeof(Image))]
 internal class SquareSlider : TemplatedControl
 {
     public static readonly StyledProperty<double> HueProperty = AvaloniaProperty.Register<SquareSlider, double>(
         nameof(Hue));
-
-    public static readonly StyledProperty<PickerType> PickerTypeProperty =
-        AvaloniaProperty.Register<SquareSlider, PickerType>(
-            nameof(PickerType));
 
     public static readonly StyledProperty<double> HeadXProperty = AvaloniaProperty.Register<SquareSlider, double>(
         nameof(HeadX));
@@ -60,8 +56,6 @@ internal class SquareSlider : TemplatedControl
     static SquareSlider()
     {
         HueProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<double>>(OnHueChanged));
-        PickerTypeProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<PickerType>>(OnColorSpaceChanged));
         IsEffectivelyEnabledProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<bool>>(OnIsEffectivelyEnabledChanged));
     }
 
@@ -95,13 +89,6 @@ internal class SquareSlider : TemplatedControl
         set => SetValue(HeadYProperty, value);
     }
 
-    public PickerType PickerType
-    {
-        get => GetValue(PickerTypeProperty);
-        set => SetValue(PickerTypeProperty, value);
-    }
-
-
     public WriteableBitmap GradientBitmap
     {
         get => GetValue(GradientBitmapProperty);
@@ -119,7 +106,7 @@ internal class SquareSlider : TemplatedControl
         base.OnApplyTemplate(e);
         image = e.NameScope.Find<Image>("PART_GradientImage");
 
-        UpdateHeadBindings(this, PickerType);
+        UpdateHeadBindings(this);
         RecalculateGradient();
     }
 
@@ -127,7 +114,7 @@ internal class SquareSlider : TemplatedControl
     {
         base.OnPointerPressed(e);
         e.Pointer.Capture(this);
-        UpdatePos(e.GetPosition(this));
+        UpdatePos(e.GetPosition(this), Bounds.Width, Bounds.Height);
 
         e.Handled = true;
     }
@@ -143,7 +130,7 @@ internal class SquareSlider : TemplatedControl
         base.OnPointerMoved(e);
         if (Equals(e.Pointer.Captured, this))
         {
-            UpdatePos(e.GetPosition(this));
+            UpdatePos(e.GetPosition(this), Bounds.Width, Bounds.Height);
 
             e.Handled = true;
         }
@@ -174,34 +161,18 @@ internal class SquareSlider : TemplatedControl
         image?.InvalidateVisual();
     }
 
-    private static void OnColorSpaceChanged(AvaloniaPropertyChangedEventArgs<PickerType> args)
+    private static void UpdateHeadBindings(SquareSlider squareSlider)
     {
-        var sender = (SquareSlider)args.Sender;
-        if (args.NewValue.Value == PickerType.HSV)
-            sender.colorSpaceConversionMethod = ColorSpaceHelper.HsvToRgb;
-        else
-            sender.colorSpaceConversionMethod = ColorSpaceHelper.HslToRgb;
-
-        sender.RecalculateGradient();
-        sender.PseudoClasses.Set(":hsv", args.NewValue.Value == PickerType.HSV);
-        sender.PseudoClasses.Set(":hsl", args.NewValue.Value == PickerType.HSL);
-        UpdateHeadBindings(sender, args.NewValue.Value);
-    }
-
-    private static void UpdateHeadBindings(SquareSlider squareSlider, PickerType pickerType)
-    {
-        string headXPath = pickerType == PickerType.HSV ? "HSV_S" : "HSL_S";
         Binding headXBinding = new()
         {
-            Path = headXPath,
+            Path = "HSV_S",
             Mode = BindingMode.TwoWay,
             Source = squareSlider.Color
         };
 
-        string headYPath = pickerType == PickerType.HSV ? "HSV_V" : "HSL_L";
         Binding headYBinding = new()
         {
-            Path = headYPath,
+            Path = "HSV_V",
             Mode = BindingMode.TwoWay,
             Source = squareSlider.Color
         };
@@ -224,22 +195,16 @@ internal class SquareSlider : TemplatedControl
             return;
 
         if (args.NewValue.Value)
-            if (sqs.PickerType == PickerType.HSV)
-                sqs.colorSpaceConversionMethod = ColorSpaceHelper.HsvToRgb;
-            else
-                sqs.colorSpaceConversionMethod = ColorSpaceHelper.HslToRgb;
+            sqs.colorSpaceConversionMethod = ColorSpaceHelper.HsvToRgb;
         else
-            if (sqs.PickerType == PickerType.HSV)
-                sqs.colorSpaceConversionMethod = ColorSpaceHelper.HsvToGray;
-            else
-                sqs.colorSpaceConversionMethod = ColorSpaceHelper.HslToGray;
+            sqs.colorSpaceConversionMethod = ColorSpaceHelper.HsvToGray;
 
         sqs.RecalculateGradient();
     }
 
-    private void UpdatePos(Point pos)
+    private void UpdatePos(Point pos, double width, double height)
     {
-        HeadX = MathHelper.Clamp(pos.X / Bounds.Width, 0, 1) * RangeX;
-        HeadY = (1 - MathHelper.Clamp(pos.Y / Bounds.Height, 0, 1)) * RangeY;
+        HeadX = Math.Clamp(pos.X / width, 0, 1) * RangeX;
+        HeadY = (1 - Math.Clamp(pos.Y / height, 0, 1)) * RangeY;
     }
 }

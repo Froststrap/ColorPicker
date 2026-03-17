@@ -100,7 +100,7 @@ internal abstract class PreviewColorSlider : Slider, INotifyPropertyChanged
         }
     }
 
-    private void OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
+    private void OnValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
         Track.Value = e.NewValue;
     }

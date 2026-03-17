@@ -108,45 +108,6 @@ namespace ColorPicker.Models
             }
         }
 
-        public double HSL_H
-        {
-            get => storage.ColorState.HSL_H;
-            set
-            {
-                if(isUpdating) return;
-
-                var state = storage.ColorState;
-                state.HSL_H = value;
-                storage.ColorState = state;
-            }
-        }
-
-        public double HSL_S
-        {
-            get => storage.ColorState.HSL_S * 100;
-            set
-            {
-                if(isUpdating) return;
-
-                var state = storage.ColorState;
-                state.HSL_S = value / 100;
-                storage.ColorState = state;
-            }
-        }
-
-        public double HSL_L
-        {
-            get => storage.ColorState.HSL_L * 100;
-            set
-            {
-                if(isUpdating) return;
-
-                var state = storage.ColorState;
-                state.HSL_L = value / 100;
-                storage.ColorState = state;
-            }
-        }
-
         public void UpdateEverything(ColorState oldValue)
         {
             var currentValue = storage.ColorState;
@@ -161,10 +122,6 @@ namespace ColorPicker.Models
             if (currentValue.HSV_H != oldValue.HSV_H) RaisePropertyChanged(nameof(HSV_H));
             if (currentValue.HSV_S != oldValue.HSV_S) RaisePropertyChanged(nameof(HSV_S));
             if (currentValue.HSV_V != oldValue.HSV_V) RaisePropertyChanged(nameof(HSV_V));
-
-            if (currentValue.HSL_H != oldValue.HSL_H) RaisePropertyChanged(nameof(HSL_H));
-            if (currentValue.HSL_S != oldValue.HSL_S) RaisePropertyChanged(nameof(HSL_S));
-            if (currentValue.HSL_L != oldValue.HSL_L) RaisePropertyChanged(nameof(HSL_L));
             RaiseUpdateAllCompleted();
             isUpdating = false;
         }

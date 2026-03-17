@@ -5,11 +5,10 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using ColorPicker.Models;
-using Path = Avalonia.Controls.Shapes.Path;
 
 namespace ColorPicker;
 
-[TemplatePart(Name = "PART_Handle", Type = typeof(Path))]
+[TemplatePart(Name = "PART_Handle", Type = typeof(Control))]
 internal class HueSlider : TemplatedControl
 {
     public static readonly StyledProperty<double> SmallChangeProperty = AvaloniaProperty.Register<HueSlider, double>(
@@ -21,11 +20,16 @@ internal class HueSlider : TemplatedControl
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        var handlerPart = e.NameScope.Find<Path>("PART_Handle");
-        handlerPart.AddHandler(PointerPressedEvent, OnMouseDown, RoutingStrategies.Tunnel);
-        handlerPart.AddHandler(PointerReleasedEvent, OnMouseUp, RoutingStrategies.Tunnel);
-        handlerPart.AddHandler(PointerMovedEvent, OnMouseMove, RoutingStrategies.Tunnel);
-        handlerPart.AddHandler(PointerWheelChangedEvent, OnPreviewMouseWheel, RoutingStrategies.Tunnel);
+
+        var handlerPart = e.NameScope.Find<Control>("PART_Handle");
+
+        if (handlerPart != null)
+        {
+            handlerPart.AddHandler(PointerPressedEvent, OnMouseDown, RoutingStrategies.Tunnel);
+            handlerPart.AddHandler(PointerReleasedEvent, OnMouseUp, RoutingStrategies.Tunnel);
+            handlerPart.AddHandler(PointerMovedEvent, OnMouseMove, RoutingStrategies.Tunnel);
+            handlerPart.AddHandler(PointerWheelChangedEvent, OnPreviewMouseWheel, RoutingStrategies.Tunnel);
+        }
     }
 
     public double SmallChange
@@ -42,12 +46,18 @@ internal class HueSlider : TemplatedControl
 
     private void OnMouseDown(object sender, PointerPressedEventArgs e)
     {
-        var circle = (Path)sender;
-        e.Pointer.Capture(circle);
-        var mousePos = e.GetPosition(circle);
-        UpdateValue(mousePos, circle.Bounds.Width, circle.Bounds.Height);
-        
+        e.Pointer.Capture(this);
+        UpdateValue(e.GetPosition(this));
         e.Handled = true;
+    }
+
+    private void OnMouseMove(object sender, PointerEventArgs e)
+    {
+        if (Equals(e.Pointer.Captured, this))
+        {
+            UpdateValue(e.GetPosition(this));
+            e.Handled = true;
+        }
     }
 
     private void OnMouseUp(object sender, PointerReleasedEventArgs e)
@@ -55,35 +65,15 @@ internal class HueSlider : TemplatedControl
         e.Pointer.Capture(null);
     }
 
-    private void OnMouseMove(object sender, PointerEventArgs e)
+    private void UpdateValue(Point mousePos)
     {
-        if (e.Pointer.Captured == null)
-            return;
-        var circle = (Path)sender;
-        var mousePos = e.GetPosition(circle);
-        UpdateValue(mousePos, circle.Bounds.Width, circle.Bounds.Height);
-        
-        e.Handled = true;
-    }
-
-    private void UpdateValue(Point mousePos, double width, double height)
-    {
-        var x = mousePos.X / (width * 2);
-        var y = mousePos.Y / (height * 2);
-
-        var length = Math.Sqrt(x * x + y * y);
-        if (length == 0)
-            return;
-        var angle = Math.Acos(x / length);
-        if (y < 0)
-            angle = -angle;
-        angle = angle * 360 / (Math.PI * 2) + 180;
-        Value = MathHelper.Clamp(angle, 0, 360);
+        double ratio = Math.Clamp(mousePos.Y / Bounds.Height, 0, 1);
+        Value = ratio * 360;
     }
 
     private void OnPreviewMouseWheel(object sender, PointerWheelEventArgs args)
     {
-        Value = MathHelper.Mod(Value + SmallChange * args.Delta.Y, 360);
+        Value = MathHelper.Mod(Value - (SmallChange * args.Delta.Y), 360);
         args.Handled = true;
     }
 }
