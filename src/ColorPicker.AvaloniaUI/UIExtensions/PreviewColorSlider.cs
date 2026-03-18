@@ -71,7 +71,7 @@ internal abstract class PreviewColorSlider : Slider, INotifyPropertyChanged
         set
         {
             _leftCapColor = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LeftCapColor)));
+            PropertyChange?.Invoke(this, new PropertyChangedEventArgs(nameof(LeftCapColor)));
         }
     }
 
@@ -81,11 +81,11 @@ internal abstract class PreviewColorSlider : Slider, INotifyPropertyChanged
         set
         {
             _rightCapColor = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RightCapColor)));
+            PropertyChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RightCapColor)));
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChange;
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
