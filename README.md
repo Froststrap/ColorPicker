@@ -1,11 +1,7 @@
-[![Discord Server](https://badgen.net/badge/discord/join%20chat/7289DA?icon=discord)](https://discord.gg/qSRMYmq)
-[![Download](https://img.shields.io/badge/nuget-download-blue)](https://www.nuget.org/packages/PixiEditor.ColorPicker/)
-[![Downloads](https://img.shields.io/nuget/dt/PixiEditor.ColorPicker)](https://www.nuget.org/packages/PixiEditor.ColorPicker/)
-
 # About
 
 A collection of various WPF and AvaloniaUI controls used to select colors.
-Supports .NET Framework 4.5.1+, .NET Core 3.1+, .NET 5 - 7 (WPF) and .NET 6 - 8 (AvaloniaUI).
+Supports .NET 10 with AvaloniaUI.
 Originally developed for [PixiEditor](https://github.com/PixiEditor/PixiEditor).
 
 ![screenshot](https://i.imgur.com/4ysN4Fe.png)
@@ -66,10 +62,6 @@ Styling differs between AvaloniaUI and WPF version. See the respective READMEs f
 ## AvaloniaUI
 
 See [AvaloniaUI Styling](https://github.com/PixiEditor/ColorPicker/tree/master/src/ColorPicker.AvaloniaUI/README.md#styling)
-
-## WPF
-
-See [WPF Styling](https://github.com/PixiEditor/ColorPicker/tree/master/src/ColorPicker/README.md#styling)
 
 # Other
 
