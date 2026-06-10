@@ -9,7 +9,6 @@
         <Company>PixiEditor</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Copyright>PixiEditor</Copyright>
-        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://github.com/PixiEditor/ColorPicker</PackageProjectUrl>
         <RepositoryUrl>https://github.com/PixiEditor/ColorPicker</RepositoryUrl>
         <RootNamespace>ColorPicker</RootNamespace>
@@ -43,11 +42,6 @@ Originally developed for PixiEditor: https://github.com/PixiEditor/PixiEditor.</
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\LICENSE.md">
-        <Pack>True</Pack>
-        <PackagePath></PackagePath>
-        <Link>LICENSE.md</Link>
-      </None>
       <None Include="icon.png">
         <Pack>True</Pack>
         <PackagePath></PackagePath>
