@@ -17,19 +17,26 @@ internal class HueSlider : TemplatedControl
     public static readonly StyledProperty<double> ValueProperty = AvaloniaProperty.Register<HueSlider, double>(
         nameof(Value));
 
+    private Control _handlePart;
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        var handlerPart = e.NameScope.Find<Control>("PART_Handle");
+        _handlePart = e.NameScope.Find<Control>("PART_Handle");
 
-        if (handlerPart != null)
+        if (_handlePart != null)
         {
-            handlerPart.AddHandler(PointerPressedEvent, OnMouseDown, RoutingStrategies.Tunnel);
-            handlerPart.AddHandler(PointerReleasedEvent, OnMouseUp, RoutingStrategies.Tunnel);
-            handlerPart.AddHandler(PointerMovedEvent, OnMouseMove, RoutingStrategies.Tunnel);
-            handlerPart.AddHandler(PointerWheelChangedEvent, OnPreviewMouseWheel, RoutingStrategies.Tunnel);
+            _handlePart.AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
+            _handlePart.AddHandler(PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel);
+            _handlePart.AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
+            _handlePart.AddHandler(PointerWheelChangedEvent, OnPreviewMouseWheel, RoutingStrategies.Tunnel);
         }
+        
+        AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
+        AddHandler(PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel);
+        AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
+        AddHandler(PointerWheelChangedEvent, OnPreviewMouseWheel, RoutingStrategies.Tunnel);
     }
 
     public double SmallChange
@@ -44,23 +51,31 @@ internal class HueSlider : TemplatedControl
         set => SetValue(ValueProperty, value);
     }
 
-    private void OnMouseDown(object sender, PointerPressedEventArgs e)
+    private void OnPointerPressed(object sender, PointerPressedEventArgs e)
     {
-        e.Pointer.Capture(this);
+        if (_handlePart != null)
+        {
+            e.Pointer.Capture(_handlePart);
+        }
+        else
+        {
+            e.Pointer.Capture(this);
+        }
         UpdateValue(e.GetPosition(this));
         e.Handled = true;
     }
 
-    private void OnMouseMove(object sender, PointerEventArgs e)
+    private void OnPointerMoved(object sender, PointerEventArgs e)
     {
-        if (Equals(e.Pointer.Captured, this))
+        var captured = e.Pointer.Captured;
+        if (captured != null && (Equals(captured, _handlePart) || Equals(captured, this)))
         {
             UpdateValue(e.GetPosition(this));
             e.Handled = true;
         }
     }
 
-    private void OnMouseUp(object sender, PointerReleasedEventArgs e)
+    private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
     {
         e.Pointer.Capture(null);
     }
