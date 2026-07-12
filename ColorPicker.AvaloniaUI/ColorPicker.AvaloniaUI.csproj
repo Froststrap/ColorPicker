@@ -23,7 +23,6 @@ Originally developed for PixiEditor: https://github.com/PixiEditor/PixiEditor.</
         <FileVersion>1.0.10</FileVersion>
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryType>git</RepositoryType>
-        <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>sgkey.snk</AssemblyOriginatorKeyFile>
         <PublicSign>false</PublicSign>
     </PropertyGroup>
