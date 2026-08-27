@@ -44,6 +44,6 @@ internal class RgbColorSlider : PreviewColorSlider
             default: return IsEffectivelyEnabled ? Color.FromArgb(a, r, g, b) : Color.FromArgb(a, gray, gray, gray);
         }
         ;
-    
+
     }
 }

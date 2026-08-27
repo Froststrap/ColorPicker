@@ -23,7 +23,7 @@ namespace ColorPicker.Models
             get => storage.ColorState.A * 255;
             set
             {
-                if(isUpdating) return;
+                if (isUpdating) return;
                 var state = storage.ColorState;
                 state.A = value / 255;
                 storage.ColorState = state;
@@ -35,7 +35,7 @@ namespace ColorPicker.Models
             get => storage.ColorState.RGB_R * 255;
             set
             {
-                if(isUpdating) return;
+                if (isUpdating) return;
 
                 var state = storage.ColorState;
                 state.RGB_R = value / 255;
@@ -48,7 +48,7 @@ namespace ColorPicker.Models
             get => storage.ColorState.RGB_G * 255;
             set
             {
-                if(isUpdating) return;
+                if (isUpdating) return;
 
                 var state = storage.ColorState;
                 state.RGB_G = value / 255;
@@ -61,7 +61,7 @@ namespace ColorPicker.Models
             get => storage.ColorState.RGB_B * 255;
             set
             {
-                if(isUpdating) return;
+                if (isUpdating) return;
 
                 var state = storage.ColorState;
                 state.RGB_B = value / 255;
@@ -74,7 +74,7 @@ namespace ColorPicker.Models
             get => storage.ColorState.HSV_H;
             set
             {
-                if(isUpdating) return;
+                if (isUpdating) return;
 
                 var state = storage.ColorState;
                 state.HSV_H = value;
@@ -87,7 +87,7 @@ namespace ColorPicker.Models
             get => storage.ColorState.HSV_S * 100;
             set
             {
-                if(isUpdating) return;
+                if (isUpdating) return;
 
                 var state = storage.ColorState;
                 state.HSV_S = value / 100;
@@ -100,7 +100,7 @@ namespace ColorPicker.Models
             get => storage.ColorState.HSV_V * 100;
             set
             {
-                if(isUpdating) return;
+                if (isUpdating) return;
 
                 var state = storage.ColorState;
                 state.HSV_V = value / 100;
@@ -111,7 +111,7 @@ namespace ColorPicker.Models
         public void UpdateEverything(ColorState oldValue)
         {
             var currentValue = storage.ColorState;
-            if(isUpdating) return;
+            if (isUpdating) return;
             isUpdating = true;
             if (currentValue.A != oldValue.A) RaisePropertyChanged(nameof(A));
 

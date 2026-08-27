@@ -57,30 +57,30 @@ internal class HsvColorSlider : PreviewColorSlider
         switch (SliderHsvType)
         {
             case "H":
-            {
-                var rgbtuple = IsEffectivelyEnabled ? ColorSpaceHelper.HsvToRgb(value, 1.0, 1.0)
-                    : ColorSpaceHelper.HsvToGray(value, 1.0, 1.0);
-                double r = rgbtuple.Item1, g = rgbtuple.Item2, b = rgbtuple.Item3;
-                return Color.FromArgb(255, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
-            }
+                {
+                    var rgbtuple = IsEffectivelyEnabled ? ColorSpaceHelper.HsvToRgb(value, 1.0, 1.0)
+                        : ColorSpaceHelper.HsvToGray(value, 1.0, 1.0);
+                    double r = rgbtuple.Item1, g = rgbtuple.Item2, b = rgbtuple.Item3;
+                    return Color.FromArgb(255, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
+                }
             case "S":
-            {
-                var rgbtuple = IsEffectivelyEnabled ? ColorSpaceHelper.HsvToRgb(CurrentColorState.HSV_H, value / 255.0,
-                    CurrentColorState.HSV_V)
-                    : ColorSpaceHelper.HsvToGray(CurrentColorState.HSV_H, value / 255.0,
-                    CurrentColorState.HSV_V);
-                double r = rgbtuple.Item1, g = rgbtuple.Item2, b = rgbtuple.Item3;
-                return Color.FromArgb(255, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
-            }
+                {
+                    var rgbtuple = IsEffectivelyEnabled ? ColorSpaceHelper.HsvToRgb(CurrentColorState.HSV_H, value / 255.0,
+                        CurrentColorState.HSV_V)
+                        : ColorSpaceHelper.HsvToGray(CurrentColorState.HSV_H, value / 255.0,
+                        CurrentColorState.HSV_V);
+                    double r = rgbtuple.Item1, g = rgbtuple.Item2, b = rgbtuple.Item3;
+                    return Color.FromArgb(255, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
+                }
             case "V":
-            {
-                var rgbtuple = IsEffectivelyEnabled ? ColorSpaceHelper.HsvToRgb(CurrentColorState.HSV_H, CurrentColorState.HSV_S,
-                    value / 255.0)
-                    : ColorSpaceHelper.HsvToGray(CurrentColorState.HSV_H, CurrentColorState.HSV_S,
-                    value / 255.0);
-                double r = rgbtuple.Item1, g = rgbtuple.Item2, b = rgbtuple.Item3;
-                return Color.FromArgb(255, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
-            }
+                {
+                    var rgbtuple = IsEffectivelyEnabled ? ColorSpaceHelper.HsvToRgb(CurrentColorState.HSV_H, CurrentColorState.HSV_S,
+                        value / 255.0)
+                        : ColorSpaceHelper.HsvToGray(CurrentColorState.HSV_H, CurrentColorState.HSV_S,
+                        value / 255.0);
+                    double r = rgbtuple.Item1, g = rgbtuple.Item2, b = rgbtuple.Item3;
+                    return Color.FromArgb(255, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
+                }
             default:
                 var rgbtupleDef = IsEffectivelyEnabled ? new Tuple<double, double, double>(CurrentColorState.RGB_R,
                     CurrentColorState.RGB_G, CurrentColorState.RGB_B)

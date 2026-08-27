@@ -32,7 +32,7 @@ internal class HueSlider : TemplatedControl
             _handlePart.AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);
             _handlePart.AddHandler(PointerWheelChangedEvent, OnPreviewMouseWheel, RoutingStrategies.Tunnel);
         }
-        
+
         AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel);
         AddHandler(PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel);
         AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel);

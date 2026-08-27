@@ -68,13 +68,13 @@ public class PickerControlBase : TemplatedControl, IColorStateStorage
             }
         };
 
-        
+
 
         ColorChanged += (sender, args) => updateColorAction(sender, args);
-        
+
     }
 
-    private Action<object, RoutedEventArgs>  updateColorAction => new Action<object, RoutedEventArgs>
+    private Action<object, RoutedEventArgs> updateColorAction => new Action<object, RoutedEventArgs>
     ((sender, newColor) =>
     {
         if (!ignoreColorChange)
