@@ -16,7 +16,7 @@ Install the NuGet package, insert a reference to the ColorPicker namespace
 
 ```xml
 <Window ...
-        xmlns:colorPicker="clr-namespace:ColorPicker;assembly=ColorPicker.AvaloniaUI"
+        xmlns:colorPicker="clr-namespace:ColorPicker;assembly=ColorPicker"
 ...>
 ```
 
@@ -43,7 +43,7 @@ To use a theme, go to your App.xaml and add the following:
 
 ```xml
 <Application ...
-        xmlns:templates="clr-namespace:ColorPicker.AvaloniaUI.Templates;assembly=ColorPicker.AvaloniaUI">
+        xmlns:templates="clr-namespace:ColorPicker.Templates;assembly=ColorPicker">
  <Application.Styles>
         ...
         <templates:SimpleColorPickerTheme /> <!-- or -->

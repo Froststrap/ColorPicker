@@ -7,7 +7,7 @@
         <ControlTheme.Resources>
             <converters:ProportialConverter x:Key="ProportialConverter" />
             
-            <Bitmap x:Key="grayscaleImage">avares://ColorPicker.AvaloniaUI/Images/CircularHueGradientGray.png</Bitmap>
+            <Bitmap x:Key="grayscaleImage">avares://ColorPicker/Images/CircularHueGradientGray.png</Bitmap>
         </ControlTheme.Resources>
 
         <Setter Property="Template">
