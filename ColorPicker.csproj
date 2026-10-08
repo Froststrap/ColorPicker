@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile          Remove="ColorPicker.AvaloniaUI/**" />
+    <None             Remove="ColorPicker.AvaloniaUI/**" />
+    <AvaloniaResource Remove="ColorPicker.AvaloniaUI/**" />
+    <EmbeddedResource Remove="ColorPicker.AvaloniaUI/**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="12.0.5" />
     <PackageReference Include="Xaml.Behaviors" Version="12.0.0.1" />
   </ItemGroup>
