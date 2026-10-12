@@ -5,11 +5,14 @@
     <Nullable>disable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>ColorPicker</RootNamespace>
-    <IsPackable>false</IsPackable>
+    <IsPackable>true</IsPackable>
 
     <Authors>Egor Mozgovoy, Krzysztof Krysiński</Authors>
     <Company>PixiEditor</Company>
     <Copyright>PixiEditor</Copyright>
+    <Description>Avalonia color picker controls maintained by Froststrap.</Description>
+    <PackageId>Froststrap.ColorPicker</PackageId>
+    <RepositoryUrl>https://github.com/Froststrap/ColorPicker</RepositoryUrl>
     <Version>1.0.10</Version>
   </PropertyGroup>
 
