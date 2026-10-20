@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -163,25 +163,81 @@ internal class SquareSlider : TemplatedControl
 
     private static void UpdateHeadBindings(SquareSlider squareSlider)
     {
-        Binding headXBinding = new()
-        {
-            Path = "HSV_S",
-            Mode = BindingMode.TwoWay,
-            Source = squareSlider.Color
-        };
-
-        Binding headYBinding = new()
-        {
-            Path = "HSV_V",
-            Mode = BindingMode.TwoWay,
-            Source = squareSlider.Color
-        };
-
         squareSlider.headXBinding?.Dispose();
         squareSlider.headYBinding?.Dispose();
 
-        squareSlider.headXBinding = squareSlider.Bind(HeadXProperty, headXBinding);
-        squareSlider.headYBinding = squareSlider.Bind(HeadYProperty, headYBinding);
+        if (squareSlider.Color is not { } color)
+            return;
+
+        var binding = new HeadColorBinding(squareSlider, color);
+
+        squareSlider.headXBinding = binding;
+        squareSlider.headYBinding = binding;
+    }
+
+    private sealed class HeadColorBinding : IDisposable
+    {
+        private readonly SquareSlider slider;
+        private readonly NotifyableColor color;
+        private bool updating;
+
+        public HeadColorBinding(SquareSlider slider, NotifyableColor color)
+        {
+            this.slider = slider;
+            this.color = color;
+
+            color.PropertyChanged += OnColorPropertyChanged;
+            slider.PropertyChanged += OnSliderPropertyChanged;
+
+            updating = true;
+            slider.HeadX = color.HSV_S;
+            slider.HeadY = color.HSV_V;
+            updating = false;
+        }
+
+        private void OnColorPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (updating)
+                return;
+
+            if (e.PropertyName == nameof(NotifyableColor.HSV_S))
+            {
+                updating = true;
+                slider.HeadX = color.HSV_S;
+                updating = false;
+            }
+            else if (e.PropertyName == nameof(NotifyableColor.HSV_V))
+            {
+                updating = true;
+                slider.HeadY = color.HSV_V;
+                updating = false;
+            }
+        }
+
+        private void OnSliderPropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            if (updating)
+                return;
+
+            if (e.Property == HeadXProperty)
+            {
+                updating = true;
+                color.HSV_S = slider.HeadX;
+                updating = false;
+            }
+            else if (e.Property == HeadYProperty)
+            {
+                updating = true;
+                color.HSV_V = slider.HeadY;
+                updating = false;
+            }
+        }
+
+        public void Dispose()
+        {
+            color.PropertyChanged -= OnColorPropertyChanged;
+            slider.PropertyChanged -= OnSliderPropertyChanged;
+        }
     }
 
     private static void OnHueChanged(AvaloniaPropertyChangedEventArgs<double> args)
