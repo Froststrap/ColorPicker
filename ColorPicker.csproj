@@ -13,18 +13,11 @@
     <Description>Avalonia color picker controls maintained by Froststrap.</Description>
     <PackageId>Froststrap.ColorPicker</PackageId>
     <RepositoryUrl>https://github.com/Froststrap/ColorPicker</RepositoryUrl>
-    <Version>1.0.10</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile          Remove="ColorPicker.AvaloniaUI/**" />
-    <None             Remove="ColorPicker.AvaloniaUI/**" />
-    <AvaloniaResource Remove="ColorPicker.AvaloniaUI/**" />
-    <EmbeddedResource Remove="ColorPicker.AvaloniaUI/**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="12.0.5" />
+    <PackageReference Include="Avalonia" Version="12.1.3" />
     <PackageReference Include="Xaml.Behaviors" Version="12.0.0.1" />
   </ItemGroup>
 
